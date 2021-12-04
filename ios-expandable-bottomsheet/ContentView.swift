@@ -9,8 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView{
+            List{
+                ForEach(courses){ course in
+                    CourseRow(course: course)
+                }
+            }
+            .listStyle(PlainListStyle())
+            .navigationBarTitle("Cursos Online")
+        }
+    }
+}
+
+struct CourseRow:View{
+    
+    var course: Course
+    
+    var body: some View{
+        HStack{
+           Image(course.image)
+               .resizable()
+               .aspectRatio(contentMode: .fill)
+               .frame(width:50, height:50)
+               .cornerRadius(10)
+           Text(course.name)
+       }
     }
 }
 
