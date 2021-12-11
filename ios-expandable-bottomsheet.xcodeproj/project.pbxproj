@@ -14,6 +14,7 @@
 		4B95CE49275ACEFD00557DAA /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B95CE48275ACEFD00557DAA /* Course.swift */; };
 		4B95CE4C275AD10600557DAA /* LevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B95CE4B275AD10600557DAA /* LevelType.swift */; };
 		4B95CE4E275AD36D00557DAA /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B95CE4D275AD36D00557DAA /* CourseDetailView.swift */; };
+		4B95CE6127653BC500557DAA /* DragState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B95CE6027653BC500557DAA /* DragState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		4B95CE48275ACEFD00557DAA /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		4B95CE4B275AD10600557DAA /* LevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelType.swift; sourceTree = "<group>"; };
 		4B95CE4D275AD36D00557DAA /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		4B95CE6027653BC500557DAA /* DragState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				4B95CE3E275ACECB00557DAA /* Assets.xcassets */,
 				4B95CE40275ACECB00557DAA /* Preview Content */,
 				4B95CE4D275AD36D00557DAA /* CourseDetailView.swift */,
+				4B95CE6027653BC500557DAA /* DragState.swift */,
 			);
 			path = "ios-expandable-bottomsheet";
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B95CE4E275AD36D00557DAA /* CourseDetailView.swift in Sources */,
+				4B95CE6127653BC500557DAA /* DragState.swift in Sources */,
 				4B95CE4C275AD10600557DAA /* LevelType.swift in Sources */,
 				4B95CE49275ACEFD00557DAA /* Course.swift in Sources */,
 				4B95CE3D275ACEC900557DAA /* ContentView.swift in Sources */,

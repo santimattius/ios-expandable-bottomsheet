@@ -8,26 +8,149 @@
 import SwiftUI
 
 struct CourseDetailView: View {
+    
+    @GestureState private var dragState = DragState.none
+    
+    @State private var offset: CGFloat = 0
+    
+    @State private var cardState = CardState.half
+    
+    var course: Course
+    
+    @Binding var isShown: Bool
+    
     var body: some View {
         
-        VStack{
-            //HandleBar
-            Rectangle()
-                .frame(width: 70, height: 8)
-                .foregroundColor(Color(.systemGray4))
-                .cornerRadius(8)
-            
-            //Title Bar
-            Text("Title Text")
-                .font(.headline)
-                .foregroundColor(.primary)
+        GeometryReader{ geometry in
+            VStack{
+                Spacer()
+                
+                HandleBar()
+                
+                TitleBar(titleText: "Course description")
+                
+                ScrollView(.vertical){
+                    HeaderView(course: self.course)
+                
+                    DescriptionView(icon: nil,
+                                    content: self.course.description)
+                }
+                .animation(nil, value: 0)
+                .disabled(self.cardState == .half || self.dragState.isDragging)
+            }
+            .background(Color.white)
+            .cornerRadius(15, antialiased: true)
+            .offset(y: geometry.size.height*0.4 + self.dragState.translation.height+self.offset)
+            .animation(.interpolatingSpring(stiffness: 200, damping: 50, initialVelocity: 10), value: 0)
+            .edgesIgnoringSafeArea(.all)
+            .gesture(DragGesture()
+                .updating(self.$dragState){ (value, state, transaction) in
+                    state = DragState.dragging(translation: value.translation)
+                }
+                .onEnded({ (value) in
+                    switch self.cardState{
+                    case .half:
+                        if value.translation.height < -0.25*geometry.size.height {
+                            self.offset = -0.3*geometry.size.height
+                            self.cardState = .full
+                        }
+                        if value.translation.height > 0.25*geometry.size.height{
+                            self.isShown = false
+                        }
+                        break
+                        
+                    case .full:
+                        if value.translation.height > 0.25*geometry.size.height{
+                            self.offset = 0
+                            self.cardState = .half
+                        }
+                        if value.translation.height > 0.75*geometry.size.height {
+                            self.isShown = false
+                        }
+                        break
+                    }
+                })
+            )
         }
         
     }
 }
 
+struct HandleBar: View {
+    var body: some View{
+        Rectangle()
+        .frame(width: 70, height: 8)
+        .foregroundColor(Color(.systemGray4))
+        .cornerRadius(8)
+    }
+}
+
+struct TitleBar: View{
+    var titleText: String
+    var body: some View{
+        Text(titleText)
+        .font(.headline)
+        .foregroundColor(.primary)
+        .padding()
+    }
+}
+
+struct HeaderView: View{
+    var course: Course
+    
+    var body: some View{
+        Image(course.image)
+            .resizable()
+            .scaledToFit()
+            .overlay(
+                HStack{
+                    VStack(alignment: .leading){
+                        Spacer()
+                        Text(course.name)
+                            .foregroundColor(.white)
+                            .font(.system(.title, design: .rounded))
+                            .bold()
+                        Text(course.level.description)
+                            .font(.system(.subheadline, design: .rounded))
+                            .foregroundColor(.white)
+                            .padding(5)
+                            .background(course.level.color)
+                            .cornerRadius(5)
+                    }
+                    Spacer()
+                }
+            .padding()
+        )
+    }
+}
+
+struct DescriptionView: View{
+    var icon: String?
+    var content: String
+    
+    var body: some View{
+        HStack{
+            if icon != nil{
+                Image(systemName: icon!)
+                    .padding(.trailing, 10)
+            }
+            Text(content)
+                .font(.system(.body, design: .rounded))
+            Spacer()
+        }.padding(.horizontal)
+    }
+}
+
+
+enum CardState {
+    case half
+    case full
+}
+
 struct CourseDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CourseDetailView()
+        CourseDetailView(course: courses[0], isShown: .constant(true))
+                  .background(Color.gray.opacity(0.5))
+                  .edgesIgnoringSafeArea(.all)
     }
 }
